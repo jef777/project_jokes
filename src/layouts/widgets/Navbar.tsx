@@ -8,16 +8,16 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  IconButton,
 } from '@material-tailwind/react';
 import {
   UserCircleIcon,
   ChevronDownIcon,
   PowerIcon,
-  Bars2Icon,
   SwatchIcon,
+  Bars3BottomLeftIcon,
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
+import DarkModeToggle from '@/components/DarkModeToggle';
 
 interface NavItem {
   label: string;
@@ -57,11 +57,11 @@ const ProfileMenu: FC = () => {
           color="blue-gray"
           className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
         >
-          <UserCircleIcon className=" w-8 h-8 rounded-full" />
+          <UserCircleIcon className=" w-8 h-8 rounded-full dark:text-indigo-50" />
 
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`h-3 w-3 transition-transform ${
+            className={`h-3 w-3 dark:text-indigo-50 transition-transform ${
               isMenuOpen ? 'rotate-180' : ''
             }`}
           />
@@ -74,7 +74,7 @@ const ProfileMenu: FC = () => {
             <MenuItem
               key={label}
               onClick={closeMenu}
-              className={`flex items-center gap-2 rounded ${
+              className={`flex items-center dark:text-indigo-50 gap-2 rounded ${
                 isLastItem
                   ? 'hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10'
                   : ''
@@ -107,9 +107,9 @@ const NavList: FC = () => {
         <Link to={link} key={key}>
           <Typography
             key={label}
-            variant="small"
+            variant="h6"
             color="blue-gray"
-            className="font-normal"
+            className="font-normal dark:text-indigo-50 hover:bg-indigo-50 duration-700 rounded-lg ease-in-out"
           >
             <MenuItem className="flex items-center gap-2 lg:rounded-full">
               {createElement(icon, { className: 'h-[18px] w-[18px]' })} {label}
@@ -133,28 +133,32 @@ export const Navbar: FC = () => {
   }, []);
 
   return (
-    <NavbarComponent className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
+    <NavbarComponent className="mx-auto py-0 px-3 max-w-[1480px] dark:bg-indigo-900 ease-in-out duration-700 p-2 lg:rounded-full lg:pl-6">
       <div className="relative mx-auto flex items-center text-blue-gray-900">
         <Link to={'/'}>
-          <Typography className="mr-4 ml-2 cursor-pointer py-1.5 text-lg text-indigo-500 font-bold">
+          <Typography className="mr-4 ml-2 cursor-pointer py-1.5 text-lg dark:text-indigo-50 ease-in-out duration-1000 text-indigo-500 font-bold">
             {appName}
           </Typography>
         </Link>
         <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
           <NavList />
         </div>
-        <IconButton
-          size="sm"
-          color="blue-gray"
-          variant="text"
+        <Bars3BottomLeftIcon
           onClick={toggleIsNavOpen}
-          className="ml-auto mr-2 lg:hidden"
-        >
-          <Bars2Icon className="h-6 w-6" />
-        </IconButton>
-        <ProfileMenu />
+          strokeWidth={2}
+          className=" w-8 h-8 my-0 ml-4 text-indigo-800 hover:scale-110 cursor-pointer lg:hidden dark:text-indigo-50"
+        />
+
+        <div className=" flex gap-8 items-center justify-center  ml-auto  ">
+          <DarkModeToggle />
+
+          <ProfileMenu />
+        </div>
       </div>
-      <Collapse open={isNavOpen} className="overflow-scroll">
+      <Collapse
+        open={isNavOpen}
+        className="overflow-auto  backdrop-blur-2xl bg-opacity-80  rounded-lg"
+      >
         <NavList />
       </Collapse>
     </NavbarComponent>

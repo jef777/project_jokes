@@ -13,18 +13,18 @@ export const DefaultLayout: FC = () => {
   return (
     <>
       <div
-        className="relative  w-full  bg-transparent !bg-no-repeat  !bg-fixed "
+        className={`relative  w-full  bg-transparent !bg-cover !bg-no-repeat  !bg-fixed  `}
         style={{
           background: `URL(${fun_background})`,
         }}
       >
         {/* backdrop-brightness-100 */}
-        <div className="min-h-screen flex  flex-col h-full  ">
+        <div className="min-h-screen flex   flex-col h-full  ">
           <div className="!fixed w-full z-40 mx-auto p-4 md:px-16  backdrop-blur-xl bg-opacity-40">
             <Navbar />
           </div>
-          <div className="flex flex-grow flex-col pt-[60px] pb-24 ">
-            <div className="mt-10 h-fit flex flex-grow md:px-20">
+          <div className="flex flex-grow flex-col pt-[60px] pb-24 w-full justify-center ">
+            <div className="mt-10 h-fit flex flex-grow md:px-20 ">
               <Routes>
                 {/* The routes are mapped and filtered by layout_name */}
                 {routes.map(
@@ -37,7 +37,7 @@ export const DefaultLayout: FC = () => {
               </Routes>
             </div>
 
-            <div className="  absolute bottom-0 z-10 mx-auto  w-full text-white md:px-16">
+            <div className="absolute bottom-0 z-10 mx-auto  w-full md:px-16">
               <Footer />
             </div>
           </div>
