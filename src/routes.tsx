@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import Home from './pages/home';
+import SignIn from './pages/auth/SignIn';
 
 export interface Page {
   path: string;
@@ -18,6 +19,16 @@ export const routes: Layout_routes[] = [
       {
         path: '/',
         element: <Home />,
+      },
+    ],
+  },
+
+  {
+    layout: 'authentication',
+    pages: [
+      {
+        path: 'sign-in',
+        element: <SignIn />,
       },
     ],
   },
