@@ -18,6 +18,9 @@ import {
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '@/pages/auth/authSlice';
+import { resetStateAction } from '@/app/actions/resetState';
 
 interface NavItem {
   label: string;
@@ -39,15 +42,29 @@ const navListItems: NavItem[] = [
 // profile menu component
 const profileMenuItems: NavItem[] = [
   {
-    label: 'Sign Out',
+    label: 'Author: jeff',
     icon: PowerIcon,
     link: '',
+  },
+  {
+    label: 'Sign Out',
+    icon: PowerIcon,
+    link: 'logout',
   },
 ];
 
 const ProfileMenu: FC = () => {
+  const dispatch = useDispatch();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLink = (link: string) => {
+    if (link === 'logout') {
+      dispatch(logoutUser);
+      dispatch(resetStateAction());
+    }
+  };
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -68,7 +85,7 @@ const ProfileMenu: FC = () => {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon, link }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
@@ -84,11 +101,13 @@ const ProfileMenu: FC = () => {
                 className: `h-4 w-4 ${isLastItem ? 'text-red-500' : ''}`,
                 strokeWidth: 2,
               })}
+
               <Typography
-                as="span"
+                as="a"
                 variant="small"
                 className="font-normal"
                 color={isLastItem ? 'red' : 'inherit'}
+                onClick={() => handleLink(link)}
               >
                 {label}
               </Typography>
