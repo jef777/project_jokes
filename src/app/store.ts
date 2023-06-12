@@ -16,10 +16,16 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { RESET_STATE_ACTION_TYPE } from './actions/resetState';
 
 import authReducer from '@/pages/auth/authSlice';
+import jokeReducer from '@/pages/jokes/jokeSlice';
+import { jokeApi } from '@/api/jokesApi';
 
 const reducers = {
   // store state slices
   auth: authReducer,
+  jokes: jokeReducer,
+
+  // RTK Query api reducers
+  [jokeApi.reducerPath]: jokeApi.reducer,
 };
 
 const combinedReducer = combineReducers<typeof reducers>(reducers);
@@ -45,7 +51,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat([thunk]),
+    }).concat([thunk, jokeApi.middleware]),
 });
 
 setupListeners(store.dispatch);

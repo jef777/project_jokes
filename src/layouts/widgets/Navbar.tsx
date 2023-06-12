@@ -15,7 +15,11 @@ import {
   PowerIcon,
   SwatchIcon,
   Bars3BottomLeftIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline';
+import { RootState } from '@/app/store';
+import { useSelector } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import { useDispatch } from 'react-redux';
@@ -39,22 +43,23 @@ const navListItems: NavItem[] = [
   },
 ];
 
-// profile menu component
-const profileMenuItems: NavItem[] = [
-  {
-    label: 'Author: jeff',
-    icon: PowerIcon,
-    link: '',
-  },
-  {
-    label: 'Sign Out',
-    icon: PowerIcon,
-    link: 'logout',
-  },
-];
-
 const ProfileMenu: FC = () => {
   const dispatch = useDispatch();
+
+  // profile menu component
+  const { author } = useSelector((state: RootState) => state.auth.user);
+  const profileMenuItems: NavItem[] = [
+    {
+      label: `${author}`,
+      icon: UserIcon,
+      link: '',
+    },
+    {
+      label: 'Sign Out',
+      icon: PowerIcon,
+      link: 'logout',
+    },
+  ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
@@ -84,29 +89,31 @@ const ProfileMenu: FC = () => {
           />
         </Button>
       </MenuHandler>
-      <MenuList className="p-1">
+      <MenuList className="p-1 flex flex-col gap-2">
         {profileMenuItems.map(({ label, icon, link }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
               onClick={closeMenu}
-              className={`flex items-center dark:text-indigo-50 gap-2 rounded ${
+              className={`flex items-center  dark:text-indigo-50 gap-2 rounded ${
                 isLastItem
                   ? 'hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10'
                   : ''
               }`}
             >
               {createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? 'text-red-500' : ''}`,
+                className: `h-4 w-4 ${
+                  isLastItem ? 'text-red-500 ' : 'dark:text-indigo-700'
+                }`,
                 strokeWidth: 2,
               })}
 
               <Typography
                 as="a"
                 variant="small"
-                className="font-normal"
-                color={isLastItem ? 'red' : 'inherit'}
+                className="font-normal  capitalize"
+                color={isLastItem ? 'red' : 'indigo'}
                 onClick={() => handleLink(link)}
               >
                 {label}
