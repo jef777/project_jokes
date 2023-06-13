@@ -47,14 +47,18 @@ const SignIn = () => {
         <form onSubmit={handleSubmit(onSubmitHandler)}>
           <div className="absolute left-2/4 top-2/4 w-full max-w-[24rem] -translate-x-2/4 -translate-y-2/4">
             <div className="flex w-full  flex-col gap-8 rounded-lg ">
-              <p className="text-3xl font-bold text-indigo-500 dark:text-indigo-100 ease-in-out duration-700 md:text-4xl ">
+              <p className="text-3xl font-bold text-indigo-500 dark:text-white ease-in-out duration-700 md:text-4xl ">
                 <span>Sign In</span>
               </p>
               <div className="flex gap-4 flex-col">
                 <div className="flex w-full flex-col flex-wrap gap-2">
                   <Input
                     label="Author *"
-                    className="bg-white dark:bg-indigo-100"
+                    className="text-indigo-800 dark:text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
+                    labelProps={{
+                      className:
+                        '!font-bold !text-gray-200 dark:!text-white peer-focus:text-white before:border-white peer-focus:before:!border-white after:border-white peer-focus:after:!border-white',
+                    }}
                     size="lg"
                     {...register('author')}
                   />
@@ -64,7 +68,7 @@ const SignIn = () => {
                 </div>
                 <Button
                   type="submit"
-                  className="dark:bg-indigo-400 bg-indigo-700 ease-in-out duration-700"
+                  className="dark:bg-index bg-indigo-700 ease-in-out duration-700"
                   fullWidth
                 >
                   Sign In

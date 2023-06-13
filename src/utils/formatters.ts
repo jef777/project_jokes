@@ -2,7 +2,10 @@
 export const standardizeResponceKeys = <T>(arr: T[]): T[] =>
   arr.map((obj: any) =>
     Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => [key.toLowerCase(), value])
+      Object.entries(obj).map(([key, value]) => [
+        key.charAt(0).toUpperCase() + key.slice(1),
+        value,
+      ])
     )
   ) as T[];
 
@@ -11,7 +14,7 @@ export const hasValue = (value: any): any =>
   value && value != ' ' ? value : '------';
 
 //Author timestamp to human readable rate formatter
-export const timestampToReadableDate = (timestamp: number) => {
+export const timestampToReadableDate = (timestamp: any) => {
   const date: Date = new Date(timestamp);
   const options: Intl.DateTimeFormatOptions = {
     day: 'numeric',

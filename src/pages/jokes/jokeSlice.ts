@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IJoke {
-  id: number;
-  body: string | null;
-  title: string | null;
-  views: string | null;
-  author: string | null;
-  createdat: number | number;
+  Id: string;
+  Body: string;
+  Title: string;
+  Views?: string;
+  Author?: string;
+  CreatedAt?: string;
 }
 
 export interface IPage {
@@ -25,9 +25,9 @@ const initialState: IJokesState = {
   jokes: [],
   page_meta: {
     page: 1,
-    limit: 10,
+    limit: 5,
     order: 'asc',
-    order_field: 'createdAt',
+    order_field: 'CreatedAt',
   },
 };
 
@@ -46,6 +46,7 @@ export const jokeSlice = createSlice({
     },
     updatePageLimit: (state, action: PayloadAction<number>) => {
       state.page_meta.limit = action.payload;
+      state.page_meta.page = 1;
     },
     updateOrder: (
       state,

@@ -37,7 +37,7 @@ const appName = `${import.meta.env.VITE_APP_BASE_NAME ?? 'JOKER'}`;
 // Menu Nav component
 const navListItems: NavItem[] = [
   {
-    label: 'Home',
+    label: 'Jokes',
     icon: SwatchIcon,
     link: '/',
   },
