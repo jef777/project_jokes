@@ -1,31 +1,35 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { IconButton, Typography } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
+import { updatePage } from '@/pages/jokes/jokeSlice';
 
 interface FnPageChange {
   (page: number): void;
 }
 interface IPagination {
-  page: number;
   onChangePage: FnPageChange;
 }
 
-export const Pagination = ({ page, onChangePage }: IPagination) => {
-  const [active, setActive] = React.useState(1);
+export const Pagination = ({ onChangePage }: IPagination) => {
+  const dispatch = useDispatch();
+  const { page_meta } = useSelector((state: RootState) => state.jokes);
+  const { page } = page_meta;
 
   useEffect(() => {
-    onChangePage(active);
-  }, [active]);
+    onChangePage(page);
+  }, [page]);
 
   const next = () => {
-    if (active === 10) return;
-    setActive(active + 1);
+    if (page === 10) return;
+    dispatch(updatePage(page + 1));
   };
 
   const prev = () => {
-    if (active === 1) return;
+    if (page === 1) return;
 
-    setActive(active - 1);
+    dispatch(updatePage(page - 1));
   };
 
   return (
@@ -34,12 +38,12 @@ export const Pagination = ({ page, onChangePage }: IPagination) => {
         size="sm"
         className="text-gray-900 font-bold bg-white"
         onClick={prev}
-        disabled={active === 1}
+        disabled={page === 1}
       >
         <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
       </IconButton>
       <Typography className=" bg-white blue-gray-900 font-semibold px-2 rounded-md py-1">
-        Page <strong className="">{active}</strong>
+        Page <strong className="">{page}</strong>
       </Typography>
       <IconButton
         size="sm"
