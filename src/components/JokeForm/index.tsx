@@ -64,19 +64,6 @@ const JokeForm = ({ onSubmitHandler, onDeleteJoke, type, data }: IJokeForm) => {
             />
             <p className="text-sm text-red-400">{errors.Title?.message}</p>
           </div>
-          <div className="flex flex-col md:w-4/12 flex-wrap gap-2">
-            <Input
-              label="Views"
-              className=" text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
-              labelProps={{
-                className:
-                  '!font-bold !text-white  peer-focus:text-white before:border-white peer-focus:before:!border-white after:border-white peer-focus:after:!border-white',
-              }}
-              size="lg"
-              {...register('Views')}
-            />
-            <p className="text-sm text-red-400">{errors.Views?.message}</p>
-          </div>
         </div>
         <div className="w-full">
           <Textarea
