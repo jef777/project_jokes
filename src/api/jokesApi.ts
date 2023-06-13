@@ -43,17 +43,17 @@ export const jokeApi = createApi({
         } catch (error) {}
       },
     }),
-    getJoke: builder.query<IJoke, { id: number }>({
-      query({ id }) {
+    getJoke: builder.query<IJoke, string>({
+      query(id) {
         return {
-          url: `/joke/${id}`,
+          url: `/jokes/${id}`,
         };
       },
     }),
-    editJoke: builder.mutation<{}, { id: number; data: FormData }>({
+    editJoke: builder.mutation<{}, { id: string | any; data: IJoke }>({
       query({ id, data }) {
         return {
-          url: `/joke/${id}`,
+          url: `/jokes/${id}`,
           method: 'PATCH',
           body: data,
         };
@@ -63,7 +63,7 @@ export const jokeApi = createApi({
     deleteJoke: builder.mutation<{}, { id: number }>({
       query(id) {
         return {
-          url: `/joke/${id}`,
+          url: `/jokes/${id}`,
           method: 'DELETE',
         };
       },

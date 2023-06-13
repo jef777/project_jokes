@@ -33,7 +33,7 @@ const combinedReducer = combineReducers<typeof reducers>(reducers);
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'jokes'],
 };
 
 const rootReducer: Reducer<RootState> = (state, action) => {
