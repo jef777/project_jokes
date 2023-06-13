@@ -16,7 +16,7 @@ import App from './App';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>

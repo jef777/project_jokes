@@ -14,13 +14,7 @@ import {
 } from '@material-tailwind/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
-import {
-  VoidFunctionComponent,
-  createElement,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { createElement, useEffect, useRef, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import {
   FilterData,
@@ -71,7 +65,7 @@ function Jokes() {
     getJokes({ ...page_meta, page });
   };
 
-  const colorByRanges = (total: any): JSX.Element => {
+  const colorByRanges = (total: string): JSX.Element => {
     const parseTotal: number = parseInt(total ?? 0);
     const rangeColors: RangeColors = {
       '0-25': 'bg-red-600 text-white',

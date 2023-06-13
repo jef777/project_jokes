@@ -10,11 +10,11 @@ export const standardizeResponceKeys = <T>(arr: T[]): T[] =>
   ) as T[];
 
 //check if the a value is present and give a placeholder alternative
-export const hasValue = (value: any): any =>
+export const hasValue = (value: string): string =>
   value && value != ' ' ? value : '------';
 
 //Author timestamp to human readable rate formatter
-export const timestampToReadableDate = (timestamp: any) => {
+export const timestampToReadableDate = (timestamp: string): string => {
   const date: Date = new Date(timestamp);
   const options: Intl.DateTimeFormatOptions = {
     day: 'numeric',
@@ -30,14 +30,14 @@ const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 //Author name Formatter
-export const format_author_name = (author: any): string => {
+export const format_author_name = (author: string): string => {
   if (!author || author == '') {
     return '-----';
   }
   if (isValidEmail(author)) {
     const [username, domain] = author.split('@');
-    const [domainName, extension] = domain.split('.');
-    return `${username}@***.${extension}`;
+    const extension = domain.split('.');
+    return `${username}@***.${extension[1]}`;
   }
 
   return author;

@@ -4,9 +4,9 @@ export interface IJoke {
   Id: string;
   Body: string;
   Title: string;
-  Views?: string;
-  Author?: string;
-  CreatedAt?: string;
+  Views: string;
+  Author: string;
+  CreatedAt: string;
 }
 
 export type FilterData = {

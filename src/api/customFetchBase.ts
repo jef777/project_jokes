@@ -23,7 +23,7 @@ const customFetchBase: BaseQueryFn<
   // wait until the mutex is available without locking it
 
   await mutex.waitForUnlock();
-  let result = await baseQuery(args, api, extraOptions);
+  const result = await baseQuery(args, api, extraOptions);
 
   return result;
 };

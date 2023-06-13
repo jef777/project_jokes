@@ -1,4 +1,4 @@
-import { object, string, any } from 'zod';
+import { object, string } from 'zod';
 
 export const JokeSchema = object({
   Title: string().min(2, 'Joke title is required'),

@@ -7,7 +7,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Typography } from '@material-tailwind/react';
-import JokeForm, { JokeInput } from '@/components/JokeForm';
+import JokeForm from '@/components/JokeForm';
 import { useNavigate } from 'react-router-dom';
 
 const AddJoke = () => {
@@ -26,7 +26,7 @@ const AddJoke = () => {
 
   const handleSubmitJoke = (values: any) => {
     const today = Date.now(); // the date today in milliseconds
-    let joke = {
+    const joke = {
       Id: uuidv4(),
       Author: 'jss',
       ...values,

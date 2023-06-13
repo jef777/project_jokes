@@ -8,7 +8,7 @@ export const jokeApi = createApi({
   baseQuery: customFetchBase,
   tagTypes: ['Jokes'],
   endpoints: (builder) => ({
-    addJoke: builder.mutation<{}, FormData>({
+    addJoke: builder.mutation<any, FormData>({
       query(data) {
         return {
           url: '/jokes',
@@ -21,7 +21,9 @@ export const jokeApi = createApi({
     getJokes: builder.query<IJoke[], IPage>({
       query({ page, limit, order, order_field, filter }) {
         const filters = Object.entries(filter)
-          .map(([key, value]: any) => `${value?.filter_field}=${value?.filter}`)
+          .map(
+            (filter: any) => `${filter[1]?.filter_field}=${filter[1]?.filter}`
+          )
           .join('&');
 
         return {
@@ -64,7 +66,7 @@ export const jokeApi = createApi({
       },
       invalidatesTags: ['Jokes'],
     }),
-    deleteJoke: builder.mutation<{}, any>({
+    deleteJoke: builder.mutation<any, any>({
       query(id) {
         return {
           url: `/jokes/${id}`,

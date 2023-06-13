@@ -1,5 +1,5 @@
 import { Typography } from '@material-tailwind/react';
-import { Link } from 'react-router-dom';
+
 const appName = `${import.meta.env.VITE_APP_BASE_NAME ?? 'JOKER'}`;
 const year = new Date().getFullYear();
 export const Footer = () => {
