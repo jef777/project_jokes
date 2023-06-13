@@ -42,3 +42,9 @@ export const format_author_name = (author: any): string => {
 
   return author;
 };
+
+//Convert date to Unix
+export const covertDateToUnix = (selected_date: string): string => {
+  const date = new Date(selected_date);
+  return `${Math.floor(date.getTime() / 1000)}`;
+};

@@ -14,17 +14,31 @@ import {
 } from '@material-tailwind/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
-import { createElement, useEffect } from 'react';
+import {
+  VoidFunctionComponent,
+  createElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Pagination from '@/components/Pagination';
-import { IJoke, updateOrder, updatePage, updatePageLimit } from './jokeSlice';
+import {
+  FilterData,
+  IJoke,
+  clearFilter,
+  updateFilter,
+  updateOrder,
+  updatePage,
+  updatePageLimit,
+} from './jokeSlice';
 import {
   MagnifyingGlassIcon,
-  ChevronUpDownIcon,
   NewspaperIcon,
   ChevronUpIcon,
   ChevronDownIcon,
 } from '@heroicons/react/24/outline';
 import {
+  covertDateToUnix,
   format_author_name,
   hasValue,
   timestampToReadableDate,
@@ -40,12 +54,17 @@ const TABLE_HEAD = ['Title', 'Author', 'Created Date', 'Views'];
 function Jokes() {
   const dispatch = useDispatch();
   const { jokes, page_meta } = useSelector((state: RootState) => state.jokes);
-  const { page, limit, order, order_field } = page_meta;
+  const { page, limit, order, order_field, filter, filter_field } = page_meta;
   const [getJokes, { isLoading }] = useLazyGetJokesQuery();
+
+  const [filterData, seFilterData] = useState<FilterData>(filter);
+
+  const viewsr = useRef<HTMLInputElement>(null);
+  const refDate = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getJokes(page_meta);
-  }, [page, limit, order, order_field]);
+  }, [page, limit, order, order_field, filter, filter_field]);
 
   const handlePageChange = (page: number) => {
     updatePage(page);
@@ -91,6 +110,36 @@ function Jokes() {
     );
   };
 
+  const handleFiltering = (): void => {
+    dispatch(updateFilter(filterData));
+  };
+
+  const handleFilterSelections = ({
+    filter_field,
+    filter,
+  }: {
+    filter_field: string;
+    filter: string;
+  }) => {
+    seFilterData({
+      ...filterData,
+      [filter_field]: {
+        filter_field,
+        filter,
+      },
+    });
+  };
+
+  const handleClearFilter = (): void => {
+    if (refDate.current) {
+      refDate.current.value = '';
+    }
+    if (viewsr.current) {
+      viewsr.current.value = '';
+    }
+    dispatch(clearFilter());
+  };
+
   return (
     <section className=" w-full max-w-[1480px] shadow-md mx-auto bg-blue-gray-600 ease-in-out duration-700 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 dark:backdrop-blur-md dark:bg-opacity-40 rounded-lg px-1 lg:px-6 py-4">
       <Card className="relative h-full w-full shadow-none bg-transparent">
@@ -119,36 +168,72 @@ function Jokes() {
               </Link>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-end gap-4  md:flex-row lg:w-11/12">
-            <div className="w-full md:w-72">
-              <Input
-                className=" text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
-                labelProps={{
-                  className:
-                    '!font-bold !text-white  peer-focus:text-white before:border-white peer-focus:before:!border-white after:border-white peer-focus:after:!border-white',
-                }}
-                label="Filter by number date"
-                type="date"
-              />
-            </div>
-            <div className="w-full md:w-72">
-              <Input
-                className=" text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
-                labelProps={{
-                  className:
-                    '!font-bold !text-white  peer-focus:text-white before:border-white peer-focus:before:!border-white after:border-white peer-focus:after:!border-white',
-                }}
-                label="Filter by number of views"
-                icon={
-                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-50 ease-in-out duration-700" />
-                }
-              />
+          <div className="flex w-full gap-4 justify-between flex-col lg:flex-row">
+            <div className="flex flex-col items-center justify-end gap-4  md:flex-row">
+              <div className="w-full md:w-72">
+                <Input
+                  ref={refDate}
+                  className=" text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
+                  labelProps={{
+                    className:
+                      '!font-bold !text-white  peer-focus:text-white before:border-white peer-focus:before:!border-white after:border-white peer-focus:after:!border-white',
+                  }}
+                  value={''}
+                  label="Filter by number date"
+                  type="date"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleFilterSelections({
+                      filter_field: 'CreatedAt',
+                      filter: covertDateToUnix(e.target.value),
+                    })
+                  }
+                />
+              </div>
+              <div className="w-full md:w-72">
+                <Input
+                  ref={viewsr}
+                  className=" text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
+                  labelProps={{
+                    className:
+                      '!font-bold !text-white  peer-focus:text-white before:border-white peer-focus:before:!border-white after:border-white peer-focus:after:!border-white',
+                  }}
+                  label="Filter by number of views"
+                  icon={
+                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-50 ease-in-out duration-700" />
+                  }
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleFilterSelections({
+                      filter_field: 'Views',
+                      filter: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex gap-4">
+                <Button
+                  size="sm"
+                  variant="outlined"
+                  color="indigo"
+                  className="hover:bg-indigo-900 text-indigo-900 hover:text-white"
+                  onClick={() => handleFiltering()}
+                >
+                  filter
+                </Button>
+                <Button
+                  size="sm"
+                  color="indigo"
+                  className="hover:!bg-transparent border border-indigo-900 hover:text-indigo-900 shadow-none"
+                  onClick={() => handleClearFilter()}
+                >
+                  clear
+                </Button>
+              </div>
             </div>
             <div className="limit-selection table  w-[32px] ">
               <Select
-                style={{ minWidth: '50px !important' }}
+                // style={{ minWidth: '50px !important' }}
                 size="md"
-                className="text-white  ease-in-out duration-700 pt-2 "
+                className="text-white  font-bold ease-in-out duration-700 pt-2 "
                 labelProps={{
                   className: '!text-white !font-bold  border-white',
                 }}

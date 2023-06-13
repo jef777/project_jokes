@@ -19,9 +19,13 @@ export const jokeApi = createApi({
       invalidatesTags: ['Jokes'],
     }),
     getJokes: builder.query<IJoke[], IPage>({
-      query({ page, limit, order, order_field }) {
+      query({ page, limit, order, order_field, filter }) {
+        const filters = Object.entries(filter)
+          .map(([key, value]: any) => `${value?.filter_field}=${value?.filter}`)
+          .join('&');
+
         return {
-          url: `/jokes/?_page=${page}&_limit=${limit}&_sort=${order_field}&_order=${order}`,
+          url: `/jokes/?_page=${page}&_limit=${limit}&_sort=${order_field}&_order=${order}&${filters}`,
         };
       },
       providesTags: (result) =>

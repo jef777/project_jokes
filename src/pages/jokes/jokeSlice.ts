@@ -9,11 +9,19 @@ export interface IJoke {
   CreatedAt?: string;
 }
 
+export type FilterData = {
+  [key: string]: {
+    filter_field: string;
+    filter: string;
+  };
+};
+
 export interface IPage {
   page: number | null;
   limit: number | null;
   order: string;
   order_field: string;
+  filter: FilterData;
 }
 
 interface IJokesState {
@@ -28,6 +36,7 @@ const initialState: IJokesState = {
     limit: 5,
     order: 'asc',
     order_field: 'CreatedAt',
+    filter: {},
   },
 };
 
@@ -55,10 +64,23 @@ export const jokeSlice = createSlice({
       state.page_meta.order = action.payload.order;
       state.page_meta.order_field = action.payload.order_field;
     },
+
+    updateFilter: (state, action: PayloadAction<FilterData>) => {
+      state.page_meta.filter = action.payload;
+    },
+    clearFilter: (state) => {
+      state.page_meta.filter = {};
+    },
   },
 });
 
 export default jokeSlice.reducer;
 
-export const { updateJokes, updatePage, updatePageLimit, updateOrder } =
-  jokeSlice.actions;
+export const {
+  updateJokes,
+  updatePage,
+  updatePageLimit,
+  updateOrder,
+  updateFilter,
+  clearFilter,
+} = jokeSlice.actions;

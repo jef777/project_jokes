@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { JokeSchema } from './schema/JokeSchema';
+import { JokeSchema } from '../../schema/JokeInputSchema';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Input, Textarea, Button } from '@material-tailwind/react';
