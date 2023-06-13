@@ -60,7 +60,7 @@ export const jokeApi = createApi({
       },
       invalidatesTags: ['Jokes'],
     }),
-    deleteJoke: builder.mutation<{}, { id: number }>({
+    deleteJoke: builder.mutation<{}, any>({
       query(id) {
         return {
           url: `/jokes/${id}`,

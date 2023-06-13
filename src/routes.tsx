@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import SignIn from './pages/auth/SignIn';
 import Jokes from './pages/jokes';
+import AddJoke from './pages/jokes/addJoke';
+import EditJoke from './pages/jokes/editJoke';
 
 export interface Page {
   path: string;
@@ -19,6 +21,15 @@ export const routes: Layout_routes[] = [
       {
         path: '/',
         element: <Jokes />,
+      },
+      {
+        path: '/joke/add',
+        element: <AddJoke />,
+      },
+
+      {
+        path: '/joke/edit/:id',
+        element: <EditJoke />,
       },
     ],
   },
