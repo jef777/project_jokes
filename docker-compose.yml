@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  jokesApp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jokes-app-image
+    ports:
+      - '3000:80'
+    container_name: jokes-app
