@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -53,6 +53,7 @@ const JokeForm = ({ onSubmitHandler, onDeleteJoke, type, data }: IJokeForm) => {
         <div className="flex flex-col md:flex-row gap-5 justify-between w-full">
           <div className="flex w-full flex-col flex-wrap gap-2">
             <Input
+              data-testid="input-joke-title"
               label="Joke Title *"
               className="text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
               labelProps={{
@@ -67,24 +68,27 @@ const JokeForm = ({ onSubmitHandler, onDeleteJoke, type, data }: IJokeForm) => {
         </div>
         <div className="w-full">
           <Textarea
-            {...register('Body')}
+            data-testid="input-joke-description"
             className="text-white placeholder-shown:!border placeholder-shown:!border-white  placeholder-shown:!border-t-white  focus:!border-t-transparent  !border-t-transparent  !border-white focus:!border-white"
             labelProps={{
               className:
                 '!font-bold !text-white peer-focus:text-white before:border-white peer-focus:before:!border-white after:border-white peer-focus:after:!border-white',
             }}
             label="Joke description"
+            {...register('Body')}
           />
           <p className="text-sm text-red-400">{errors.Body?.message}</p>
         </div>
         <div className="flex gap-4">
           <Button
+            data-testid="btn-submit-joke"
             type="submit"
             className="hover:scale-105 bg-transparent text-white hover:border-indigo-800 border border-white hover:bg-indigo-800 hover:text-indigo-50"
           >
             Submit
           </Button>
           <Button
+            data-testid="btn-cancel-jock-submit"
             className="hover:scale-105 hover:bg-transparent bg-gray-600 hover:text-white border-gray-600 border hover:border-white text-gray-50"
             onClick={() => navigate('/')}
           >
@@ -92,6 +96,7 @@ const JokeForm = ({ onSubmitHandler, onDeleteJoke, type, data }: IJokeForm) => {
           </Button>
           {type == 'EDIT' && (
             <Button
+              data-testid="btn-delete-joke"
               className=" hover:scale-105 bg-red-600 hover:text-white border-gray-600 border hover:border-red text-white"
               onClick={() => onDeleteJoke()}
             >

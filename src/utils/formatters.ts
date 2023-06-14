@@ -1,4 +1,4 @@
-//Harmonize responce array object keys to lowercase
+//Harmonize responce array object keys to uppercase
 export const standardizeResponceKeys = <T>(arr: T[]): T[] =>
   arr.map((obj: any) =>
     Object.fromEntries(
@@ -15,7 +15,7 @@ export const hasValue = (value: string): string =>
 
 //Author timestamp to human readable rate formatter
 export const timestampToReadableDate = (timestamp: string): string => {
-  const date: Date = new Date(timestamp);
+  const date: Date = new Date(parseInt(timestamp));
   const options: Intl.DateTimeFormatOptions = {
     day: 'numeric',
     month: 'short',

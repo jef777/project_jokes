@@ -6,7 +6,7 @@ import {
 } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
 
-const baseUrl = `${import.meta.env.VITE_APP_BASE_API_URL}/zu9TVE/`;
+const baseUrl = `https://retoolapi.dev/zu9TVE/`;
 
 // Create a new mutex
 const mutex = new Mutex();

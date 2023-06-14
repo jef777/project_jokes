@@ -17,6 +17,7 @@ export default function Switcher() {
     <>
       <div className=" py-1 -mt-1 bg-indigo-600 dark:bg-indigo-50 px-2 group  rounded-full border  flex justify-center gap-2 items-center">
         <DarkModeSwitch
+          data-testid="dark-mode-switch"
           className="mb-1 animate-pulse mt-1 ml-0.5 hover:scale-110 w-4 h-4"
           checked={darkSide}
           onChange={toggleDarkMode}
