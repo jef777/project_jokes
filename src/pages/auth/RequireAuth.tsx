@@ -7,9 +7,10 @@ import { RootState } from '@/app/store';
 // This  is an auth middleware component it guards protected routes
 const RequireAuth: FC = () => {
   const location = useLocation();
-  const { token } = useSelector((state: RootState) => state).auth.user;
 
-  if (token) {
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  if (user?.token) {
     return <Outlet />;
   } else if (location?.key != 'default') {
     toast.success('Come again soon', {

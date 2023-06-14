@@ -17,13 +17,7 @@
     "jsx": "react-jsx",
     "outDir": "dist/esm",
     "moduleResolution": "node",
-    "types": [
-      "vite/client",
-      "jest",
-      "jest-dom",
-      "@testing-library/jest-dom",
-      "node"
-    ],
+    "types": ["vite/client", "jest", "@testing-library/jest-dom", "node"],
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -97,7 +97,6 @@ function Jokes() {
           className="rounded-none bg-transparent"
         >
           <div className="mb-8 flex items-center justify-between gap-8">
-            <p>Jokeslist</p>
             <div>
               <Typography
                 variant="h2"

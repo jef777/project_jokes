@@ -1,4 +1,11 @@
-import { ElementType, FC, createElement, useEffect, useState } from 'react';
+import {
+  ElementType,
+  FC,
+  createElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Navbar as NavbarComponent,
   Collapse,
@@ -48,80 +55,67 @@ const ProfileMenu: FC = () => {
 
   // profile menu component
   const { author } = useSelector((state: RootState) => state.auth.user);
-  const profileMenuItems: NavItem[] = [
-    {
-      label: `${author}`,
-      icon: UserIcon,
-      link: '',
-    },
-    {
-      label: 'Sign Out',
-      icon: PowerIcon,
-      link: 'logout',
-    },
-  ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
+  const dropdownRef: any = useRef(null);
 
-  const handleLink = (link: string) => {
-    if (link === 'logout') {
-      dispatch(logoutUser);
-      dispatch(resetStateAction());
+  const handleLogOut = () => {
+    dispatch(logoutUser);
+    dispatch(resetStateAction());
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClickOutside = (event: any) => {
+    console.log('dwcew');
+    if (dropdownRef.current && !dropdownRef?.current?.contains(event.target)) {
+      setIsOpen(false);
     }
   };
 
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-      <MenuHandler>
-        <Button
-          variant="text"
-          color="blue-gray"
-          className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+      <div className="relative" ref={dropdownRef}>
+        <button
+          onClick={toggleDropdown}
+          className="flex items-center mr-2 space-x-2 text-sm text-gray-700 hover:text-gray-900 focus:outline-none"
         >
           <UserCircleIcon className=" w-8 h-8 rounded-full dark:text-indigo-50" />
-
+          <span className="dark:text-white  font-bold">{author}</span>
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`h-3 w-3 dark:text-indigo-50 transition-transform ${
-              isMenuOpen ? 'rotate-180' : ''
+            className={`h-3 w-3 ease-in-out duration-300 dark:text-indigo-50 transition-transform ${
+              isOpen ? 'rotate-180' : ''
             }`}
           />
-        </Button>
-      </MenuHandler>
-      <MenuList className="p-1 flex flex-col gap-2">
-        {profileMenuItems.map(({ label, icon, link }, key) => {
-          const isLastItem = key === profileMenuItems.length - 1;
-          return (
-            <MenuItem
-              key={label}
-              onClick={closeMenu}
-              className={`flex items-center  dark:text-indigo-50 gap-2 rounded ${
-                isLastItem
-                  ? 'hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10'
-                  : ''
-              }`}
+        </button>
+        {isOpen && (
+          <div className="absolute  right-0 mt-2 py-1 w-32 bg-white border border-gray-300 rounded shadow">
+            <a
+              onClick={() => handleLogOut()}
+              className=" px-4 flex gap-4 py-2 cursor-pointer font-bold text-sm text-gray-700 hover:bg-red-50 "
             >
-              {createElement(icon, {
-                className: `h-4 w-4 ${
-                  isLastItem ? 'text-red-500 ' : 'dark:text-indigo-700'
-                }`,
+              {createElement(PowerIcon, {
+                className: `h-5 w-5 'text-red-500 `,
                 strokeWidth: 2,
               })}
-
-              <Typography
-                as="a"
-                variant="small"
-                className="font-normal  capitalize"
-                color={isLastItem ? 'red' : 'indigo'}
-                onClick={() => handleLink(link)}
-              >
-                {label}
-              </Typography>
-            </MenuItem>
-          );
-        })}
-      </MenuList>
+              Sign In
+            </a>
+            {/* Add more options as needed */}
+          </div>
+        )}
+      </div>
     </Menu>
   );
 };
